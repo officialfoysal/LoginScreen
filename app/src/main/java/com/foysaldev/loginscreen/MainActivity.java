@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class MainActivity extends AppCompatActivity {
 
     private TextView titleTextView, registerTextView, forgetPassTextView;
-    private EditText emailEditText, passwordEditText;
+    private TextInputLayout emailEditText, passwordEditText;
     private ImageView logoImageView;
     private Button loginButton;
     private FirebaseAuth mAuth;
@@ -42,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
         logoImageView = findViewById(R.id.logo_imageview);
         loginButton = findViewById(R.id.button);
 
+        forgetPassTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,ForgetPassword.class));
+            }
+        });
+
         mAuth = FirebaseAuth.getInstance();
 
         //checking if user is logged in
@@ -52,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                email = emailEditText.getText().toString();
-                password = passwordEditText.getText().toString();
+                email = emailEditText.getEditText().getText().toString();
+                password = passwordEditText.getEditText().getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
